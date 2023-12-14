@@ -1,0 +1,13 @@
+nbstripout
+
+jupyter
+ipython
+torch
+# torchWithCuda
+# pytorch
+# pytorchWithCuda
+transformers
+numpy
+biopython
+tqdm
+scipy
