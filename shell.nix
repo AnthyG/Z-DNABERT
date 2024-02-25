@@ -2,15 +2,13 @@
 (pkgs.buildFHSUserEnv {
   name = "pipzone";
   targetPkgs = pkgs: (with pkgs; [
+    gcc
     python310
     python310Packages.pip
     python310Packages.virtualenv
-    cudaPackages.cudatoolkit
+#    cudaPackages.cudatoolkit
   ]);
   runScript = "
-  virtualenv venv/
-  source venv/bin/activate
-  pip install -r requirements.txt
-  jupyter lab
+  bash ./run.sh
   ";
 }).env
