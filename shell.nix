@@ -9,10 +9,6 @@
 #    cudaPackages.cudatoolkit
   ]);
   runScript = "
-  unset SOURCE_DATE_EPOCH
-  virtualenv venv/
-  source venv/bin/activate
-  TMPDIR=~/tmp python -m pip install -r requirements.txt
-  jupyter lab
+  bash ./run.sh
   ";
 }).env
