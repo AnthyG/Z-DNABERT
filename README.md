@@ -60,7 +60,7 @@ bash ./run.sh
 
 Once JupyterLab has opened, open the notebook `ZDNA-prediction.local.ipynb` in JupyterLab.
 
-There will be a big blue link at the very top with the title "Jump to Run Section", click it.
+The big blue link at the very top with the title "Jump to Run Section" can be used to jump to the "Run"-Section, if you feel like it takes too long to scroll down.
 
 The "Run"-Section contains further information on how to use the notebook.
 
