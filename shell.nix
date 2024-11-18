@@ -3,9 +3,9 @@
   name = "pipzone";
   targetPkgs = pkgs: (with pkgs; [
     gcc
-    python310
-    python310Packages.pip
-    python310Packages.virtualenv
+    python311
+    python311Packages.pip
+    python311Packages.virtualenv
 #    cudaPackages.cudatoolkit
   ]);
   runScript = "

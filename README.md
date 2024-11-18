@@ -19,7 +19,25 @@ The systems is required to provide the following commands:
 
 On NixOS, all dependencies are already included in the file `shell.nix`, no manual installation of dependencies is required.
 
-For Nvidia CUDA support, the file `shell.nix` has to be edited, specifically `#` in the line containing `#    cudaPackages.cudatoolkit` has to be removed.
+###### Nvidia CUDA
+
+Nvidia CUDA allows for faster execution of the Notebook at hand by utilizing the GPU instead of the CPU. From a select few tests, it seems to increase the iterations per second about tenfold.
+
+To run the Jupyter Notebook with CUDA support enabled, some manual adjusting needs to be done.
+
+The file `shell.nix` has to be edited, specifically `#` in the line containing `#    cudaPackages.cudatoolkit` has to be removed.
+
+If you want the exact python pip package versions, remove all `#` from the file `requirements.txt`.
+
+Furthermore, it seems to be necessary to include the following lines in `/etc/nixos/configuration.nix`.
+If you have any advice on how to solve this via a `shell.nix`-File, please let me know! The documentation on how to use CUDA on NixOS seems to be outdated or at least didn't work out of the box for me.
+
+```nix
+systemd.services.nvidia-control-devices = {
+  wantedBy = [ "multi-user.target" ];
+  serviceConfig.ExecStart = "${pkgs.linuxPackages.nvidia_x11.bin}/bin/nvidia-smi";
+};
+```
 
 ##### Debian / Ubuntu
 
