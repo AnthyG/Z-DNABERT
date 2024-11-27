@@ -21,7 +21,7 @@ On NixOS, all dependencies are already included in the file `shell.nix`, no manu
 
 ###### Nvidia CUDA
 
-Nvidia CUDA allows for faster execution of the Notebook at hand by utilizing the GPU instead of the CPU. From a select few tests, it seems to increase the iterations per second about tenfold.
+Nvidia CUDA allows for faster execution of the Notebook at hand by utilizing the GPU instead of the CPU. From a select few tests, it seems to increase the iterations per second about tenfold when using a AMD Ryzen 9 5900HX CPU and a NVIDIA GeForce RTX 3070 Laptop (Mobile) GPU.
 
 To run the Jupyter Notebook with CUDA support enabled, some manual adjusting needs to be done.
 
@@ -44,8 +44,8 @@ systemd.services.nvidia-control-devices = {
 For Debian / Ubuntu, the following two commands should suffice:
 
 ```sh
-sudo apt install gcc curl python3.10 python3-pip
-python3.10 -m pip install --user virtualenv
+sudo apt install gcc curl python3.11 python3-pip
+python3.11 -m pip install --user virtualenv
 ```
 
 ##### Other
