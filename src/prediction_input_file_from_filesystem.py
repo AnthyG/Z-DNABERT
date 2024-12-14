@@ -3,7 +3,8 @@ from src.prediction_input_file import PredictionInputFile
 class PredictionInputFileFromFilesystem(PredictionInputFile):
     file_handler = None
     
-    def __init__(self, file_path: str):
+    def __init__(self, file_name: str, file_path: str):
+        self.file_name = file_name
         self.file_path = file_path
 
     def open(self):

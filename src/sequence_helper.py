@@ -1,4 +1,5 @@
 import numpy as np
+from tqdm.auto import tqdm
 
 class SequenceHelper:
     
@@ -31,10 +32,15 @@ class SequenceHelper:
             end = min(st+length, len(seq))
             res.append(seq[st:end])
         return res
-    
-    def stitch_np_preds(self, np_seqs, pad: int = 16):
+
+    def stitch_np_preds(
+        self,
+        np_seqs,
+        progress_bar=tqdm,
+        pad=16,
+    ):
         res = np.array([])
-        for seq in np_seqs:
+        for seq in progress_bar(np_seqs, 'stitching predictions'):
             res = res[:-pad]
-            res = np.concatenate([res,seq])
+            res = np.concatenate([res, seq])
         return res

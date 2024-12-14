@@ -5,5 +5,5 @@ class SequenceVariation:
     def create_variation(self, seq: str) -> str:
         raise NotImplementedError()
 
-    def derive_candidate_start_and_end(self, seq_len: int, candidate: list[int]) -> (int, int):
+    def derive_candidate_start_and_end(self, seq_len: int, candidate) -> (int, int):
         raise NotImplementedError()

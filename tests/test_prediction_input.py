@@ -1,11 +1,11 @@
 import unittest
 from unittest.mock import Mock
 
-from src.zdnabert_model import ZdnabertModel
 from src.prediction_input import PredictionInput
 from src.prediction_input_file import PredictionInputFile
-from src.prediction_result import PredictionResult
 from src.sequence_variation import SequenceVariation
+from src.zdnabert_model import ZdnabertModel
+
 
 class TestPredictionInput(unittest.TestCase):
 

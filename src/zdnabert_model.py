@@ -1,8 +1,9 @@
-import torch
-from transformers import BertTokenizer, BertForTokenClassification, PreTrainedModel
 import logging
-from src.sequence_helper import SequenceHelper
+from tqdm.auto import tqdm
+import torch
 import scipy
+from transformers import BertTokenizer, BertForTokenClassification, PreTrainedModel
+from src.sequence_helper import SequenceHelper
 
 class ZdnabertModel:
     logger: logging.Logger
@@ -37,14 +38,14 @@ class ZdnabertModel:
         self.model = BertForTokenClassification.from_pretrained(self.data_path)
 
     def check_cuda(self) -> None:
-        if self.use_cuda_if_available == True:
+        if self.use_cuda_if_available:
             self.is_cuda_available = torch.cuda.is_available()
             self.logger.info('cuda is {}'.format('available' if self.is_cuda_available else 'not available'))
         else:
             self.is_cuda_available = False
     
     def prepare_cuda(self) -> None:
-        if self.is_cuda_available == True:
+        if self.is_cuda_available:
             self.model.cuda()
         else:
             self.model.cpu()
@@ -54,23 +55,31 @@ class ZdnabertModel:
         seq_pieces = self.sequence_helper.split_seq(kmer_seq)
         return seq_pieces
 
-    def run_prediction(self, seq_pieces: list) -> list:
+    def run_prediction(
+        self,
+        seq_pieces: list,
+        progress_bar = tqdm,
+    ) -> list:
         preds = []
         with torch.no_grad():
-            for seq_piece in seq_pieces:
+            for seq_piece in progress_bar(seq_pieces, 'prediction on sequence pieces'):
                 input_ids = torch.LongTensor(self.tokenizer.encode(' '.join(seq_piece), add_special_tokens=False))
                 input_ids_unsqueezed = None
                 if self.is_cuda_available:
                     input_ids_unsqueezed = input_ids.cuda().unsqueeze(0)
                 else:
                     input_ids_unsqueezed = input_ids.cpu().unsqueeze(0)
-                outputs = torch.softmax(self.model(input_ids_unsqueezed)[-1],axis = -1)[0,:,1]
+                outputs = torch.softmax(self.model(input_ids_unsqueezed)[-1], axis = -1)[0,:,1]
                 preds.append(outputs.cpu().numpy())
         return preds
 
-    def stitch_preds(self, preds: list) -> list:
-        return self.sequence_helper.stitch_np_preds(preds)
+    def stitch_preds(
+        self,
+        preds: list,
+        progress_bar = tqdm,
+    ):
+        return self.sequence_helper.stitch_np_preds(preds, progress_bar)
     
-    def label_stitched_preds(self, stitched_preds: list):
+    def label_stitched_preds(self, stitched_preds):
         labeled, max_label = scipy.ndimage.label(stitched_preds>self.model_confidence_threshold)
         return labeled, max_label

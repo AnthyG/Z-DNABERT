@@ -10,10 +10,10 @@ class ModelManager:
         hash1 = self.hash_file(source_path)
         hash2 = self.hash_file(target_path)
         if hash1 != hash2:
-            self.logger.info('\ncopying file to input directory\n')
+            self.logger.info('copying file to input directory')
             subprocess.run(['cp', source_path, target_path])
         else:
-            self.logger.info('\nfile hasn\'t changed\n')
+            self.logger.info('file hasn\'t changed')
     
     def hash_file(self, file_path: str):
         if os.path.exists(file_path) == False:
