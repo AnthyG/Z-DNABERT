@@ -78,7 +78,7 @@ def main():
 
     # Run predictions and save outputs
     for prediction_result in prediction_runner.run(prediction_inputs, progress_bar=tqdm):
-        bed_file_name = prediction_result_formatter_bed_file.file_name(prediction_result)
+        bed_file_name = prediction_result_formatter_bed_file.file_name_variation(prediction_result)
         output_file_path = output_path / bed_file_name
 
         with open(output_file_path, 'w') as bed_file:

@@ -1,13 +1,20 @@
 from typing import Iterable
 import numpy as np
-import time
 from src.prediction_result_formatter import PredictionResultFormatter
 from src.prediction_result import PredictionResult
 
 class PredictionResultFormatterBedFile(PredictionResultFormatter):
-    def file_name(self, prediction_result: PredictionResult) -> str:
+    def file_name_common(self, prediction_result: PredictionResult, now_time_as_string_for_file_name: str) -> str:
         model_params_as_string_for_file_name = prediction_result.get_model_params_as_string_for_file_name()
-        now_time_as_string_for_file_name = time.strftime("%Y_%m_%d,%H_%M_%S")
+        file_name = prediction_result.file_name
+        seq_record_name = prediction_result.seq_record_name
+        seq_record_key = '{}.{}.{}.{}'.format(file_name, seq_record_name, model_params_as_string_for_file_name, now_time_as_string_for_file_name)
+        bed_file_name = '{}.bed'.format(seq_record_key)
+
+        return bed_file_name
+    
+    def file_name_variation(self, prediction_result: PredictionResult, now_time_as_string_for_file_name: str) -> str:
+        model_params_as_string_for_file_name = prediction_result.get_model_params_as_string_for_file_name()
         sequence_variation = prediction_result.sequence_variation
         file_name = prediction_result.file_name
         seq_record_name = prediction_result.seq_record_name
@@ -15,7 +22,6 @@ class PredictionResultFormatterBedFile(PredictionResultFormatter):
         seq_name = sequence_variation.get_title()
         seq_key = '{}.{}'.format(seq_record_key, seq_name)
         bed_file_name_seq = '{}.bed'.format(seq_key)
-        #bed_file_name = '{}.bed'.format(seq_record_key)
 
         return bed_file_name_seq
         

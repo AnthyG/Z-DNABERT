@@ -65,7 +65,7 @@ class ZdnabertPredictionRunner:
         prediction_runner = PredictionRunner()
         
         for prediction_result in prediction_runner.run(prediction_inputs):
-            bed_file_name_seq = prediction_result_formatter_bed_file.file_name(prediction_result)
+            bed_file_name_seq = prediction_result_formatter_bed_file.file_name_variation(prediction_result)
             
             #print(bed_file_name_seq)
             #print(bed_file_name)
