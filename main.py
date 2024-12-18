@@ -51,7 +51,7 @@ def main():
         model_name=args.model,
         model_confidence_threshold=args.confidence_threshold,
         minimum_sequence_length=args.min_seq_length,
-        use_cuda_if_available=args.use_cuda,
+        use_cuda=args.use_cuda,
     )
 
     # Initialize sequence variations

@@ -7,7 +7,7 @@ from src.sequence_helper import SequenceHelper
 
 class ZdnabertModel:
     logger: logging.Logger
-    is_cuda_available: bool
+    using_cuda: bool
     tokenizer: BertTokenizer
     model: PreTrainedModel
     
@@ -17,7 +17,7 @@ class ZdnabertModel:
         model_name: str,
         model_confidence_threshold: float,
         minimum_sequence_length: int,
-        use_cuda_if_available: bool,
+        use_cuda: bool,
     ):
         self.logger = logging.getLogger(__name__)
         self.sequence_helper = SequenceHelper()
@@ -26,7 +26,7 @@ class ZdnabertModel:
         self.model_name = model_name
         self.model_confidence_threshold = model_confidence_threshold
         self.minimum_sequence_length = minimum_sequence_length
-        self.use_cuda_if_available = use_cuda_if_available
+        self.use_cuda = use_cuda
 
     def load(self) -> None:
         self.prepare_bert_model()
@@ -38,14 +38,15 @@ class ZdnabertModel:
         self.model = BertForTokenClassification.from_pretrained(self.data_path)
 
     def check_cuda(self) -> None:
-        if self.use_cuda_if_available:
-            self.is_cuda_available = torch.cuda.is_available()
-            self.logger.info('cuda is {}'.format('available' if self.is_cuda_available else 'not available'))
+        if self.use_cuda:
+            self.using_cuda = torch.cuda.is_available()
+            if not self.using_cuda:
+                raise RuntimeError('cuda is set to be used but not available')
         else:
-            self.is_cuda_available = False
+            self.using_cuda = False
     
     def prepare_cuda(self) -> None:
-        if self.is_cuda_available:
+        if self.using_cuda:
             self.model.cuda()
         else:
             self.model.cpu()
@@ -65,7 +66,7 @@ class ZdnabertModel:
             for seq_piece in progress_bar(seq_pieces, 'prediction on sequence pieces'):
                 input_ids = torch.LongTensor(self.tokenizer.encode(' '.join(seq_piece), add_special_tokens=False))
                 input_ids_unsqueezed = None
-                if self.is_cuda_available:
+                if self.using_cuda:
                     input_ids_unsqueezed = input_ids.cuda().unsqueeze(0)
                 else:
                     input_ids_unsqueezed = input_ids.cpu().unsqueeze(0)
