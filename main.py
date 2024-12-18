@@ -2,7 +2,6 @@ import os
 import pathlib
 import argparse
 from tqdm.auto import tqdm
-import logging
 from src.prediction_runner import PredictionRunner
 from src.prediction_input import PredictionInput
 from src.prediction_input_file_from_filesystem import PredictionInputFileFromFilesystem
@@ -21,12 +20,12 @@ OUTPUT_PATH = './output'
 def main():
     parser = argparse.ArgumentParser(description="Run Z-DNABERT predictions on input sequences.")
     parser.add_argument(
-    '--model',
-    type=str,
-    required=True,
-    choices=["HG_chipseq", "HG_kouzine", "MM_chipseq", "MM_kouzine"],
-    help="Name of the model to use. Choices are: HG_chipseq, HG_kouzine, MM_chipseq, MM_kouzine."
-)
+        '--model',
+        type=str,
+        required=True,
+        choices=["HG_chipseq", "HG_kouzine", "MM_chipseq", "MM_kouzine"],
+        help="Name of the model to use. Choices are: HG_chipseq, HG_kouzine, MM_chipseq, MM_kouzine."
+    )
 
     parser.add_argument('--confidence-threshold', type=float, default=0.5, help="Model confidence threshold.")
     parser.add_argument('--min-seq-length', type=int, default=10, help="Minimum sequence length to process.")
