@@ -15,11 +15,14 @@ class TestPredictionInput(unittest.TestCase):
         prediction_input_file_mock_2 = Mock(spec=PredictionInputFile)
         sequence_variation_mock_1 = Mock(spec=SequenceVariation)
         sequence_variation_mock_2 = Mock(spec=SequenceVariation)
-        prediction_input_1 = PredictionInput(
+        
+        actual = PredictionInput(
             model_mock,
             [prediction_input_file_mock_1, prediction_input_file_mock_2],
             [sequence_variation_mock_1, sequence_variation_mock_2]
         )
+
+        self.assertIsInstance(actual, PredictionInput)
 
 if __name__ == '__main__':
     unittest.main()

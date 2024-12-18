@@ -9,6 +9,16 @@ class TestSequenceHelper(unittest.TestCase):
     def setUp(self):
         self.cls = SequenceHelper()
 
+    def test_upper_seq(self):
+        for c in [
+            ['aaa', 'AAA'],
+            ['aAa', 'AAA'],
+            ['AAA', 'AAA'],
+        ]:
+            with self.subTest(i='{} -> {}'.format(c[0], c[1])):
+                actual = self.cls.upper_seq(c[0])
+                self.assertEqual(c[1], actual)
+    
     def test_complement_nucleobase(self):
         for c in [
             ['A', 'T'],
@@ -29,6 +39,17 @@ class TestSequenceHelper(unittest.TestCase):
     def test_reverse(self):
         actual = self.cls.reverse_seq('ABCD')
         self.assertEqual('DCBA', actual)
+
+    def test_seq2kmer(self):
+        actual = self.cls.seq2kmer('12345678', 6)
+        self.assertEqual(
+            [
+                '123456',
+                '234567',
+                '345678',
+            ],
+            actual
+        )
 
 if __name__ == '__main__':
     unittest.main()
