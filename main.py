@@ -78,8 +78,8 @@ def main():
     prediction_runner = PredictionRunner()
 
     # Run predictions and save outputs
+    now_time_as_string_for_file_name = time.strftime("%Y_%m_%d,%H_%M_%S")
     for prediction_result in prediction_runner.run(prediction_inputs, progress_bar=tqdm):
-        now_time_as_string_for_file_name = time.strftime("%Y_%m_%d,%H_%M_%S")
         bed_file_name = prediction_result_formatter_bed_file.file_name_variation(prediction_result, now_time_as_string_for_file_name)
         output_file_path = output_path / bed_file_name
 
