@@ -76,7 +76,7 @@ class ZdnabertPredictionRunner:
             #print('track name="{name}" priority=2'.format(name=seq_name))
             for line in prediction_result_formatter_bed_file.format(prediction_result):
                 #print(line)
-                bed_file_seq_handler.write("%s\n" % line)
+                bed_file_seq_handler.write("{}\n".format(line))
     
             bed_file_seq_handler.close()
             #print()
