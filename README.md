@@ -12,6 +12,7 @@ The systems is required to provide the following commands:
 
 - `mkdir`
 - `cp`
+- `curl`
 
 #### Dependencies
 
